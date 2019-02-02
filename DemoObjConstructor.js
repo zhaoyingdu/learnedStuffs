@@ -73,12 +73,13 @@ let myAuthenticHomeBrew =
  * its an arg therefore a local variable inside the scope of DemoCreatorWithParentCreator()
  * so you can not use the constructor expect, because it will give undefined exception*/
 expect(myAuthenticHomeBrew.constructor.name).toBe('HouseBlend') 
-
 //Loging results
 console.log("\nmy coffies:\ncheck my 1st coffee: "+myTim.brand)
-/* output undefined, because ln23~25 is not newing object, therefore this.brand="tim" 
+/* output undefined, because ln23~25 is not newing object, therefore this.brand="star" 
  * is never executed, instead, we have only assigned DemoCreator.prototype to retVal.__proto__. btw, this.*** inside a constructor function
- * is utilized by the new operator only, see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new*/ 
+ * is utilized by the new operator only, see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new
+ * refering back to line 61, we can tell that nyStar is indeed an instance of Star, but the caveat here is that, myStar is not instantiated
+ * by new Star(), so, does not get the brand property on itself*/ 
  console.log("check my 2nd coffee: "+myStar.brand)
  //now use StarByProto to see the change
  let passPropByDirectChangeProto = DemoCreator(StarByProto.prototype)
