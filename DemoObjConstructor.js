@@ -2,8 +2,8 @@ var expect = require('expect')
 
 /**
  * let demo = new Object()
- * internally, it does this: demo.__proto__  =  Object.constructor.prototype
- * or in another notation, [[prototype]] of demo is assigned the value of Object.constructor.prototype,
+ * internally, it does this: demo.__proto__  =  Object.prototype
+ * or in another notation, [[prototype]] of demo is assigned the value of Object.prototype,
  * [[prototype]] represents the prototype object in the prototype chain, which is also a property
  * of demo object, but it is internal, thus they use [[]] this notation, and is not directly 
  * accessible in any code(demo.__proto__ return the prototype object, but its unstandard). the functionality 
