@@ -15,24 +15,19 @@ var expect = require('expect')
 
 
 /**
- * 
- * @param  proto  a prototype object, whose properties and prototypechain be
- * inherited by retVal after function return
+ * functions that assign prototype object to a local object and return that object
  */
 let DemoCreator = (proto)=>{
   let retVal = {}
   retVal.__proto__ = proto
   return retVal
 }
-
-
 let DemoCreatorWithParentCreator = (ParentCreator)=>{
   return retVal = Object.setPrototypeOf({}, ParentCreator.prototype)
 }
 
 
-/**main execution part */
-
+/**constructor functions*/
 /**
  * 1. you can't use arrow function to declare a constructor, because invocation
  * context is different for function(){} and ()=>{}
@@ -52,7 +47,7 @@ let StarByProto = function(){}
 StarByProto.prototype = {...Function.prototype, brand:"starbucks"}
 
 
-//use the constructors
+//create some stuff and see result
 console.log('creating Tim brand coffee')
 let myTim = new Tim()
 expect(myTim).toBeInstanceOf(Tim)
