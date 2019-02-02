@@ -55,7 +55,7 @@ console.log('creating Tim brand coffee')
 let myTim = new Tim()
 expect(myTim).toBeInstanceOf(Tim)
 
-//2. use demoCreator(), this creation is a kind of a lie, explained at ln 81-90 */
+//2. use demoCreator(), this creation is a kind of a lie, explained at ln 78-81 */
 console.log('creating Starbucks brand coffee, use my own machine "DemoCreator"') 
 let myStar = DemoCreator(Star.prototype)
 expect(myStar).toBeInstanceOf(Star)
