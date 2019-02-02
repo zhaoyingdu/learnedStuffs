@@ -1,6 +1,4 @@
-var
- expect = require('expect')
-
+var expect = require('expect')
 
 /**
  * let demo = new Object()
@@ -11,14 +9,15 @@ var
  * accessible in any code(demo.__proto__ return the prototype object, but its unstandard). the functionality 
  * of using constructor function, and "constructr.prototype" is provide a mechanism to assign a prototype to
  * the new object at creation time.
- * to change demo.__prototype__ after creation, use Object.setPrototypeOf(demo, newProtoObj)
+ * to change demo.__proto__ after creation, use Object.setPrototypeOf(demo, newProtoObj)
+ * 
  */
 
 
 /**
  * 
- * @param {1} proto  a prototype object, that is used to replacing the
- * currect value of the 
+ * @param  proto  a prototype object, whose properties and prototypechain be
+ * inherited by retVal after function return
  */
 let DemoCreator = (proto)=>{
   let retVal = {}
@@ -65,12 +64,14 @@ let myAuthenticHomeBrew =
       return HouseBlend
     })())
 
-expect(myAuthenticHomeBrew.constructor.name).toBe('HouseBlend') //used different expect method because the constructor function is not in this scope,
-//its an arg therefore a local variable inside the scope of DemoCreatorWithParentCreator()
-// so you can not use the constructor expect, because it will give undefined exception
+/* used different expect method because the constructor function is not in this scope,
+ * its an arg therefore a local variable inside the scope of DemoCreatorWithParentCreator()
+ * so you can not use the constructor expect, because it will give undefined exception*/
+expect(myAuthenticHomeBrew.constructor.name).toBe('HouseBlend') 
 
 console.log("check my 1st coffee: "+myCoffee.brand)
-console.log("check my 2nd coffee: "+myHomeBrew.brand) //out put undefined, because ln23~25 is not newing object, therefore this.brand="tim" 
-  //is never executed, instead, we have only assigned DemoCreator.prototype to retVal.__proto__. btw, this.*** inside a constructor function
-  //is utilized by the new operator only, see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new
+console.log("check my 2nd coffee: "+myHomeBrew.brand) 
+/* output undefined, because ln23~25 is not newing object, therefore this.brand="tim" 
+ * is never executed, instead, we have only assigned DemoCreator.prototype to retVal.__proto__. btw, this.*** inside a constructor function
+ * is utilized by the new operator only, see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new*/ 
 console.log("check my 3rd coffee: "+myAuthenticHomeBrew.brand)
