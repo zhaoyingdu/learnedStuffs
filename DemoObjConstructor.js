@@ -32,27 +32,34 @@ let DemoCreatorWithParentCreator = (ParentCreator)=>{
 
 
 /**main execution part */
+
 /**
- * you can't use arrow function to declare a constructor, because invocation
+ * 1. you can't use arrow function to declare a constructor, because invocation
  * context is different for function(){} and ()=>{}
  * In arrow function, the keyword this will use the value of the external 
  * this, depending on the location the function invoked.
  * where as invoking function(){} will give a null context during invokation
+ * 2. function Tim and Star does not pass property from their prototype,
+ * where as funtion StarByProto do.
  */
 let Tim = function(){ 
   this.brand = 'tim'
 }
-
 let Star = function(){
   this.brand = 'starbucks'
 }
+let StarByProto = function(){}
+StarByProto.prototype = {...Function.prototype, brand:"starbucks"}
 
+
+//use the constructors
 console.log('creating Tim brand coffee')
-let myCoffee = new Tim()
-expect(myCoffee).toBeInstanceOf(Tim)
-console.log('creating Starbucks brand coffee, use my own machine "DemoCreator"')
-let myHomeBrew = DemoCreator(Star.prototype)
-expect(myHomeBrew).toBeInstanceOf(Star)
+let myTim = new Tim()
+expect(myTim).toBeInstanceOf(Tim)
+/* following creation is a lie, explained at ln 81-90 */
+console.log('creating Starbucks brand coffee, use my own machine "DemoCreator"') 
+let myStar = DemoCreator(Star.prototype)
+expect(myStar).toBeInstanceOf(Star)
 
 
 console.log('creating a authentic Homebrew use my own method and my machine#2: "DemoCreatorWithParentCreator"')
@@ -70,8 +77,16 @@ let myAuthenticHomeBrew =
 expect(myAuthenticHomeBrew.constructor.name).toBe('HouseBlend') 
 
 console.log("check my 1st coffee: "+myCoffee.brand)
-console.log("check my 2nd coffee: "+myHomeBrew.brand) 
+
 /* output undefined, because ln23~25 is not newing object, therefore this.brand="tim" 
  * is never executed, instead, we have only assigned DemoCreator.prototype to retVal.__proto__. btw, this.*** inside a constructor function
  * is utilized by the new operator only, see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new*/ 
-console.log("check my 3rd coffee: "+myAuthenticHomeBrew.brand)
+ console.log("check my 2nd coffee: "+myHomeBrew.brand)
+
+ //now use StarByProto to see the change
+ let passPropByDirectChangeProto = DemoCreator(StarByProto.prototype)
+ let passPropByNew = new StarByProto()
+ console.log("check my 2nd coffee- rework-1: "+passPropByDirectChangeProto.brand)
+ console.log("check my 2nd coffee- rework-2: "+passPropByNew.brand)
+
+ console.log("check my 3rd coffee: "+myAuthenticHomeBrew.brand)
