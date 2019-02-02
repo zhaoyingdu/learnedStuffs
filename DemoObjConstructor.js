@@ -16,6 +16,8 @@ var expect = require('expect')
 
 /**
  * functions that assign prototype object to a local object and return that object
+ * they essentially do the same thing, except one is using unoffical backdoor the other 
+ * using offical method
  */
 let DemoCreator = (proto)=>{
   let retVal = {}
@@ -48,15 +50,17 @@ StarByProto.prototype = {...Function.prototype, brand:"starbucks"}
 
 
 //create some stuff and see result
+//1. use new operator
 console.log('creating Tim brand coffee')
 let myTim = new Tim()
 expect(myTim).toBeInstanceOf(Tim)
-/* following creation is a lie, explained at ln 81-90 */
+
+//2. use demoCreator(), this creation is a kind of a lie, explained at ln 81-90 */
 console.log('creating Starbucks brand coffee, use my own machine "DemoCreator"') 
 let myStar = DemoCreator(Star.prototype)
 expect(myStar).toBeInstanceOf(Star)
 
-
+//3. use DemoCreatorWithParentCreator()
 console.log('creating a authentic Homebrew use my own method and my machine#2: "DemoCreatorWithParentCreator"')
 let myAuthenticHomeBrew = 
   DemoCreatorWithParentCreator(
@@ -65,19 +69,17 @@ let myAuthenticHomeBrew =
       HouseBlend.prototype.brand = 'my house blend'
       return HouseBlend
     })())
-
 /* used different expect method because the constructor function is not in this scope,
  * its an arg therefore a local variable inside the scope of DemoCreatorWithParentCreator()
  * so you can not use the constructor expect, because it will give undefined exception*/
 expect(myAuthenticHomeBrew.constructor.name).toBe('HouseBlend') 
 
-console.log("check my 1st coffee: "+myCoffee.brand)
-
+//Loging results
+console.log("\nmy coffies:\ncheck my 1st coffee: "+myTim.brand)
 /* output undefined, because ln23~25 is not newing object, therefore this.brand="tim" 
  * is never executed, instead, we have only assigned DemoCreator.prototype to retVal.__proto__. btw, this.*** inside a constructor function
  * is utilized by the new operator only, see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new*/ 
- console.log("check my 2nd coffee: "+myHomeBrew.brand)
-
+ console.log("check my 2nd coffee: "+myStar.brand)
  //now use StarByProto to see the change
  let passPropByDirectChangeProto = DemoCreator(StarByProto.prototype)
  let passPropByNew = new StarByProto()
